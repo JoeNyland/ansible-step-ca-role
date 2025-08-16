@@ -1,0 +1,32 @@
+---
+- name: Setup Step CA
+  tags:
+    - ca
+    - step
+    - step_ca
+  block:
+    - name: Manage user
+      user:
+        name: step-ca
+        home: /var/lib/step-ca
+        system: true
+        skeleton: /dev/null
+        shell: /usr/sbin/nologin
+      notify: Restart Step CA service
+    - name: Install
+      apt:
+        deb: https://dl.smallstep.com/certificates/docs-ca-install/latest/step-ca_amd64.deb
+      notify: Restart Step CA service
+    - name: Install service file
+      copy:
+        src: step-ca.service
+        dest: "/etc/systemd/system/step-ca.service"
+        mode: '0644'
+      notify:
+        - Reload systemd
+        - Restart Step CA service
+    - name: Manage service
+      service:
+        name: step-ca
+        enabled: "{{ step_ca_service_enabled }}"
+        state: "{{ step_ca_service_state }}"

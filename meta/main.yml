@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Joe Nyland
+  role_name: step_ca
+  namespace: joenyland
+  description: Installs Step CA
+  license: MIT
+  min_ansible_version: '2.1'
+  platforms:
+  - name: Debian
+    versions:
+      - bookworm
+  galaxy_tags:
+    - step-ca
+dependencies: []
