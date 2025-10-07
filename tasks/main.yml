@@ -5,6 +5,10 @@
     - step
     - step_ca
   block:
+    - name: Get Debian architecture
+      shell: dpkg --print-architecture
+      register: debian_architecture
+      changed_when: false
     - name: Manage user
       user:
         name: step-ca
@@ -15,7 +19,7 @@
       notify: Restart Step CA service
     - name: Install
       apt:
-        deb: https://dl.smallstep.com/certificates/docs-ca-install/latest/step-ca_amd64.deb
+        deb: "{{ step_ca_binary_url }}"
       notify: Restart Step CA service
     - name: Install service file
       copy:
